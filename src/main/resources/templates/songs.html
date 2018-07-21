@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Songs</title>
+</head>
+<body>
+<header>
+<nav>
+	<ul>	
+		<li>
+		<a th:href="@{/artists}">Artists</a>
+		</li>
+		<li>
+		<a th:href="@{/albums}">Albums</a>
+		</li>
+		<li>
+		<a th:href="@{/songs}">Songs</a>
+		</li>
+	</ul>
+</nav>
+</header>
+<h2 >
+	<strong>Mewzak</strong>
+</h2>
+<div>
+	<ul>
+		<li th:each="song : ${songs}"><a
+			th:href="|@{/songs/}${song.id}|">
+			 <span th:text="${song.songName}"></span>
+		</a></li>
+	</ul>
+</div>
+ 
+</body>
+</html>
