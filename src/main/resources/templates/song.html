@@ -36,6 +36,17 @@
 		<li th:text="${song.album}"></li>
 	</ul>	
 </div>
-
+<h3>Comments about this song</h3>        
+        <div>
+            <label>Your name: <input type="text" name="userNameApi" placeholder="Name"/></label>
+            <label>Comment: <input type="text" name="commentApi" placeholder="Comment" /></label>
+            <input type="hidden" name="songId" th:value="${song.id}"></input>
+            <button class="submitComment">Submit</button>
+        </div>
+        <ul class="commentList">
+            <li th:each="songComment : ${song.songComments}">
+                <span th:text="|${songComment.userName}: ${songComment.comment}|"></span>
+            </li>
+        </ul>
 </body>
 </html>

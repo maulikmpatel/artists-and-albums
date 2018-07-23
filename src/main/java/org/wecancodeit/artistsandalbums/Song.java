@@ -28,7 +28,7 @@ public class Song {
 	
 	public Song() {}
 	
-	public Song(String songName, String length, String lyrics, String rating, Album album,Artist artist, SongComment...songComments ) {
+	public Song(String songName, String length, String lyrics, String rating, Album album, SongComment...songComments ) {
 		this.songName = songName;
 		this.length = length;
 		this.lyrics = lyrics;

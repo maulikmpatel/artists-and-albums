@@ -47,7 +47,7 @@ public class ApiController {
 	}
 	@RequestMapping(value= "/artists", method = RequestMethod.POST)
 	public Collection<Artist> addArtist(@RequestParam(value = "artistName") String artistName,
-										@RequestParam(value = "recordLabel") String recordLabel){	
+										@RequestParam(value = "recordLabel", required=false) String recordLabel){	
 		if (artistRepo.findByArtistName(artistName) == null) {		
 				artistRepo.save(new Artist(artistName, recordLabel));
 			}
@@ -56,33 +56,41 @@ public class ApiController {
 	@RequestMapping(value= "/artists/{artistName}", method = RequestMethod.POST)
 	public Collection<Album> addAlbum(
 			@PathVariable(name="artistName")String artistName,
-			@RequestParam(value = "albumName") String albumName,
-			@RequestParam(value = "releaseDate") String releaseDate,
-			@RequestParam(value = "genre") String genre,
-			@RequestParam(value = "coverImg") String coverImg,
-			@RequestParam(value = "recordLabel") String recordLabel) {	
+			@RequestParam(value = "albumName", required=false) String albumName,
+			@RequestParam(value = "releaseDate", required=false) String releaseDate,
+			@RequestParam(value = "genre", required=false) String genre,
+			@RequestParam(value = "coverImg", required=false) String coverImg,
+			@RequestParam(value = "recordLabel", required=false) String recordLabel) {	
 		if (albumRepo.findByAlbumName(albumName) == null && artistRepo.findByArtistName(artistName) == null) {		
 			Artist newArtist = artistRepo.save(new Artist(artistName, recordLabel));
 			albumRepo.save(new Album(albumName, releaseDate, genre, coverImg, newArtist));
 			}
 		return (Collection<Album>) albumRepo.findAll();	
 	}
-	@RequestMapping(value= "/artists/{artistName}/{albumName}", method = RequestMethod.POST)
-	public Collection<Song> addSong(@PathVariable(name="artistName")String artistName,
-			@PathVariable(name="albumName")String albumName,
-			@RequestParam(value = "releaseDate") String releaseDate,
-			@RequestParam(value = "genre") String genre,
-			@RequestParam(value = "coverImg") String coverImg,
-			@RequestParam(value = "recordLabel") String recordLabel,
-			@RequestParam(value="songName")String songName,
-			@RequestParam(value="length")String length,
-			@RequestParam(value="lyrics")String lyrics,
-			@RequestParam(value="rating")String rating)
+	@RequestMapping(value = "/album/add-albumcomment", method = RequestMethod.POST)
+	public Collection<AlbumComment> addAlbumComment(@RequestParam(value = "albumUser") String albumUser,
+			@RequestParam(value = "albumComment") String albumComment,
+			@RequestParam(value = "albumName") String albumName){
+		albumCommentRepo.save(new AlbumComment(albumUser, albumComment, albumRepo.findByAlbumName(albumName)));
+		Collection<AlbumComment> newAlbumComment = albumRepo.findByAlbumName(albumName).getAlbumComments();
+		return newAlbumComment;
+	}
+	@RequestMapping(value= "/album/add-album", method = RequestMethod.POST)
+	public Collection<Song> addSong(@RequestParam(value="artistName")String artistName,
+			@RequestParam(value="albumName")String albumName,
+			@RequestParam(value = "releaseDate", required=false) String releaseDate,
+			@RequestParam(value = "genre", required=false) String genre,
+			@RequestParam(value = "coverImg", required=false) String coverImg,
+			@RequestParam(value = "recordLabel", required=false) String recordLabel,
+			@RequestParam(value="songName", required=false)String songName,
+			@RequestParam(value="length", required=false)String length,
+			@RequestParam(value="lyrics", required=false)String lyrics,
+			@RequestParam(value="rating", required=false)String rating)
 	{	
 		if (albumRepo.findByAlbumName(albumName) == null && artistRepo.findByArtistName(artistName) == null && songRepo.findBySongName(songName) == null) {		
 			Artist newArtist = artistRepo.save(new Artist(artistName, recordLabel));
 			Album newAlbum = albumRepo.save(new Album(albumName, releaseDate, genre, coverImg, newArtist));
-			songRepo.save(new Song(songName, length, lyrics, rating, newAlbum, newArtist));
+			songRepo.save(new Song(songName, length, lyrics, rating, newAlbum));
 		}
 		return (Collection<Song>) songRepo.findAll();	
 	}

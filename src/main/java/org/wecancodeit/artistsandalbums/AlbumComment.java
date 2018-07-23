@@ -16,19 +16,25 @@ public class AlbumComment {
 		@Id
 		@GeneratedValue
 		private Long id;
+		private String albumUser;
 		@Lob
 		private String albumComment;
 
 		public AlbumComment() {
 		}
 
-		public AlbumComment(String albumComment, Album Album) {
+		public AlbumComment(String albumUser, String albumComment, Album Album) {
 			this.albumComment = albumComment;
+			this.albumUser = albumUser;
 	
 		}
 
 		public Album getAlbum() {
 			return album;
+		}
+
+		public String getAlbumUser() {
+			return albumUser;
 		}
 
 		public Long getId() {

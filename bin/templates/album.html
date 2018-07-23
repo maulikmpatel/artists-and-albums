@@ -26,7 +26,7 @@
 	<strong>MewZak</strong>
 </h2>
 <h1>
-	<span th:text="${artistName}"></span>
+	<span id="artistName"  th:text="${artistName}"></span>
 </h1>
 <div>
 <h2>
@@ -46,6 +46,18 @@
 		</li>
 	</ul>
 </div>
-    
+    <h3>Comments about this album</h3>
+        <div>
+            <label>Your name: <input type="text" name="albumUser" placeholder="Name" /></label>
+            <label>Comment: <input type="text" name="albumComment" placeholder="Comment" /></label>
+            <input type="text" name="albumName" th:value="${album.albumName}"></input>
+            <button class="submitComment">Submit</button>
+        </div>
+        <ul class="commentList">
+            <li th:each="albumComment : ${album.albumComments}">
+                <span th:text="|${albumComment.albumUser}: ${albumComment.albumComment}|"></span>
+            </li>
+        </ul>
+        <script src="/js/album.js"></script>
 </body>
 </html>
